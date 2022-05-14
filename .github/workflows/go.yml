@@ -1,0 +1,35 @@
+name: Go
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+jobs:
+
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+
+    - name: Set up Go
+      uses: actions/setup-go@v3
+      with:
+        go-version: 1.18
+    
+    - name: Get deps
+      run: |
+        export GO111MODULE=on
+        export GOPRIVATE=github.com/caelansar
+        git config --global url."https://caelansar:${{ secrets.ACCESS_TOKEN }}@github.com/caelansar/".insteadOf "https://github.com/caelansar/"
+        go mod download
+
+    - name: Build
+      run: go build -o action -v ./...
+
+    - name: Archive production artifacts
+      uses: actions/upload-artifact@v3
+      with:
+        name: acation
+        path: /home/runner/work/acation/acation
