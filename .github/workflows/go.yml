@@ -10,6 +10,9 @@ jobs:
 
   build:
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: /go/caelansar
     steps:
     - uses: actions/checkout@v3
 
@@ -32,4 +35,4 @@ jobs:
       uses: actions/upload-artifact@v3
       with:
         name: acation
-        path: /home/runner/work/acation/acation
+        path: /go/caelansar
